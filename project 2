@@ -28,7 +28,6 @@ class SimpleURLShortener:
         short_code = short_url.replace(self.base_url, "")
         return self.short_to_long.get(short_code, None)
 
-# Example usage
 if __name__ == "__main__":
     url_shortener = SimpleURLShortener()
     
