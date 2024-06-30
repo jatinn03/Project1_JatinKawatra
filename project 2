@@ -1,0 +1,40 @@
+import string
+import random
+
+class SimpleURLShortener:
+    def __init__(self):
+        self.long_to_short = {}
+        self.short_to_long = {}
+        self.base_url = "http://short.url/"
+        self.short_url_length = 6
+        self.characters = string.ascii_letters + string.digits
+
+    def generate_short_code(self):
+        while True:
+            short_code = ''.join(random.choice(self.characters) for _ in range(self.short_url_length))
+            if short_code not in self.short_to_long:
+                return short_code
+
+    def create_short_url(self, long_url):
+        if long_url in self.long_to_short:
+            short_code = self.long_to_short[long_url]
+        else:
+            short_code = self.generate_short_code()
+            self.long_to_short[long_url] = short_code
+            self.short_to_long[short_code] = long_url
+        return self.base_url + short_code
+
+    def get_long_url(self, short_url):
+        short_code = short_url.replace(self.base_url, "")
+        return self.short_to_long.get(short_code, None)
+
+# Example usage
+if __name__ == "__main__":
+    url_shortener = SimpleURLShortener()
+    
+    original_url = input("Enter the long URL: ")
+    short_url = url_shortener.create_short_url(original_url)
+    print(f"Shortened URL: {short_url}")
+    
+    retrieved_url = url_shortener.get_long_url(short_url)
+    print(f"Retrieved URL: {retrieved_url}")
